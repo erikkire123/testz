@@ -3,55 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload App</title>
+    <title>File Upload</title>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js"></script>
 </head>
 <body>
-    <h1>File Upload App</h1>
+    <h1>File Upload</h1>
 
-    <!-- File Upload Form -->
     <form id="uploadForm">
         <input type="file" id="fileInput" required>
         <button type="submit">Upload File</button>
     </form>
 
-    <!-- List of Uploaded Files -->
-    <h2>Uploaded Files:</h2>
+    <h2>Uploaded Files</h2>
     <ul id="fileList"></ul>
 
-    <!-- Firebase Configuration -->
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js"></script>
     <script>
-       const firebaseConfig = {
-    apiKey: "AIzaSyBpYV6gtjB4KTxMtQ6Q3e587iTo7rrEphM",
-    authDomain: "database-57ed9.firebaseapp.com",
-    databaseURL: "https://database-57ed9-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "database-57ed9",
-    storageBucket: "database-57ed9.appspot.com",
-    messagingSenderId: "680361149889",
-    appId: "1:680361149889:web:bc80cb5f8a29689d7c9b40",
-    measurementId: "G-X7RZLL3PL0"
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpYV6gtjB4KTxMtQ6Q3e587iTo7rrEphM",
+            authDomain: "database-57ed9.firebaseapp.com",
+            projectId: "database-57ed9",
+            storageBucket: "database-57ed9.appspot.com",
+            messagingSenderId: "680361149889",
+            appId: "1:680361149889:web:bc80cb5f8a29689d7c9b40"
+        };
 
         firebase.initializeApp(firebaseConfig);
         const storage = firebase.storage();
-
-        document.getElementById('uploadForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-
-            const storageRef = storage.ref('uploads/' + file.name);
-
-            // Upload the file to Firebase Storage
-            storageRef.put(file).then(function(snapshot) {
-                console.log('Uploaded a blob or file!');
-
-                // Refresh the file list after successful upload
-                updateFileList();
-            });
-        });
 
         function updateFileList() {
             const fileList = document.getElementById('fileList');
@@ -72,6 +50,21 @@
             });
         }
 
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            const storageRef = storage.ref('uploads/' + file.name);
+
+            storageRef.put(file).then(function(snapshot) {
+                console.log('Uploaded a blob or file!');
+                updateFileList();
+            });
+        });
+
+        // Initial call to populate the file list
         updateFileList();
     </script>
 </body>
