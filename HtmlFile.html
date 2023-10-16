@@ -61,6 +61,8 @@
             storageRef.put(file).then(function(snapshot) {
                 console.log('Uploaded a blob or file!');
                 updateFileList();
+            }).catch(function(error) {
+                console.error('Error uploading file:', error);
             });
         });
 
