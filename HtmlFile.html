@@ -35,10 +35,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const storage = firebase.storage();
-    </script>
 
-    <!-- Firebase Upload Script -->
-    <script>
         document.getElementById('uploadForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -47,8 +44,11 @@
 
             const storageRef = storage.ref('uploads/' + file.name);
 
+            // Upload the file to Firebase Storage
             storageRef.put(file).then(function(snapshot) {
                 console.log('Uploaded a blob or file!');
+
+                // Refresh the file list after successful upload
                 updateFileList();
             });
         });
